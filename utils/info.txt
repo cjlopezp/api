@@ -1,0 +1,1 @@
+Funcion pequeña para eventos breves. Ej: gestor de contraseñas. Validador
