@@ -1,5 +1,5 @@
 const db = require("../../models");
-const PaymentMethod = db.PaymentMethod;
+const ProductCategory = db.ProductCategory;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -13,12 +13,12 @@ exports.create = (req, res) => {
         return;
     }
 
-    const paymentMethod = {
+    const productCategory = {
         name: req.body.name,
         visible: req.body.visible ? req.body.visible : true
     };
 
-    PaymentMethod.create(paymentMethod).then(data => {
+    ProductCategory.create(productCategory).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -39,7 +39,7 @@ exports.findAll = (req, res) => {
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    PaymentMethod.findAll({ where: condition }).then(data => {
+    ProductCategory.findAll({ where: condition }).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -52,7 +52,7 @@ exports.findOne = (req, res) => {
 
     const id = req.params.id;
 
-    PaymentMethod.findByPk(id).then(data => {
+    ProductCategory.findByPk(id).then(data => {
 
         if (data) {
             res.status(200).send(data);
@@ -73,7 +73,7 @@ exports.update = (req, res) => {
 
     const id = req.params.id;
 
-    PaymentMethod.update(req.body, {
+    ProductCategory.update(req.body, {
         where: { id: id }
     }).then(num => {
         if (num == 1) {
@@ -96,7 +96,7 @@ exports.delete = (req, res) => {
 
     const id = req.params.id;
 
-    PaymentMethod.destroy({
+    ProductCategory.destroy({
         where: { id: id }
     }).then(num => {
         if (num == 1) {
