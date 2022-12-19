@@ -1,10 +1,10 @@
 const db = require("../../models");
-const ProductCategory = db.ProductCategory;
+const Product = db.Product;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.name || !req.body.visible) {
+    if (!req.body.name || !req.body.price || !req.body.tax_id || !req.body.category_id || !req.body.valid) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -13,13 +13,17 @@ exports.create = (req, res) => {
         return;
     }
 
-    const productCategory = {
+    const products = {
+
         name: req.body.name,
-        visible: req.body.visible, //? req.body.visible : true
-       
+        price: req.body.price,
+        tax_id: req.body.tax_id,
+        category_id: req.body.category_id,
+        valid: req.body.valid,
+
     };
 
-    ProductCategory.create(productCategory).then(data => {
+    Product.create(products).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -32,15 +36,25 @@ exports.findAll = (req, res) => {
 
     let whereStatement = {};
 
-    if(req.query.visible)
-        whereStatement.visible = {[Op.substring]: req.query.visible};
-
     if(req.query.name)
         whereStatement.name = {[Op.substring]: req.query.name};
 
+    if(req.query.price)
+    whereStatement.price = {[Op.substring]: req.query.v};
+
+    if(req.query.tax_id)
+    whereStatement.tax_id = {[Op.substring]: req.query.tax_id};
+
+    if(req.query.category_id)
+    whereStatement.category_id = {[Op.substring]: req.query.category_id};
+
+    if(req.query.valid)
+    whereStatement.valid = {[Op.substring]: req.query.valid};
+
+
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    ProductCategory.findAll({ where: condition }).then(data => {
+    Product.findAll({ where: condition }).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -53,7 +67,7 @@ exports.findOne = (req, res) => {
 
     const id = req.params.id;
 
-    ProductCategory.findByPk(id).then(data => {
+    Product.findByPk(id).then(data => {
 
         if (data) {
             res.status(200).send(data);
@@ -74,7 +88,7 @@ exports.update = (req, res) => {
 
     const id = req.params.id;
 
-    ProductCategory.update(req.body, {
+    Product.update(req.body, {
         where: { id: id }
     }).then(num => {
         if (num == 1) {
@@ -97,7 +111,7 @@ exports.delete = (req, res) => {
 
     const id = req.params.id;
 
-    ProductCategory.destroy({
+    Product.destroy({
         where: { id: id }
     }).then(num => {
         if (num == 1) {

@@ -3,8 +3,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-   
-    await queryInterface.createTable('products', {
+    
+    await queryInterface.createTable('contacts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,26 +15,30 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      price: {
+      surname: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      phone_number: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      tax_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'taxes',
-          key: 'id',
-          as: 'tax_id'
-        }
+      email: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
-      category_id:  {
-        type: Sequelize.INTEGER,
+      message_text: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      fingerprint_id: {
+        type: Sequelize.STRING,
         references: {
-          model: 'product_categories',
+          model: 'fingerprints',
           key: 'id',
-          as: 'category_id'
+          as: 'fingerprint_id'
         }
-      },      
+      }, 
       valid: {
         allowNull: false,
         type: Sequelize.BOOLEAN
@@ -56,6 +60,6 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     
-    await queryInterface.dropTable('products');
+    await queryInterface.dropTable('contacts');
   }
 };
