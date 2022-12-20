@@ -3,37 +3,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-   
-    await queryInterface.createTable('products', {
+    
+    await queryInterface.createTable('fingerprints', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      client_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'clients',
+          key: 'id'
+        }
+      },
+      fingerprint: {
         allowNull: false,
         type: Sequelize.STRING
-      },
-      price: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      tax_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'taxes',
-          key: 'id',
-          as: 'tax_id'
-        }
-      },
-      category_id:  {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'product_categories',
-          key: 'id',
-          as: 'category_id'
-        }
       },
       createdAt: {
         allowNull: false,
@@ -48,10 +35,11 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
   },
 
   async down (queryInterface, Sequelize) {
-    
-    await queryInterface.dropTable('products');
+   
+    await queryInterface.dropTable('fingerprints');
   }
 };

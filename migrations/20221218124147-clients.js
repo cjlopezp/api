@@ -4,28 +4,40 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     
-    await queryInterface.createTable('contacts', {
+    await queryInterface.createTable('clients', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      client_id: {
-        type: Sequelize.STRING,
-        references: {
-          model: 'clients',
-          key: 'id',
-          as: 'client_id'
-        }
-      },
-      fingerprint: {
+      name: {
         allowNull: false,
         type: Sequelize.STRING
-      },       
-      valid: {
+      },
+      surname: {
         allowNull: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
+      },
+      phone_number: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      email: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      city: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      postal_code: {
+        allowNull: false,
+        type: Sequelize.CHAR
+      },
+      address: {
+        allowNull: false,
+        type: Sequelize.CHAR
       },
       createdAt: {
         allowNull: false,
@@ -40,15 +52,10 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    
+    await queryInterface.dropTable('clients');
   }
 };

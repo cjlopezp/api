@@ -32,16 +32,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       fingerprint_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: {
           model: 'fingerprints',
-          key: 'id',
-          as: 'fingerprint_id'
+          key: 'id'
+        
         }
-      }, 
-      valid: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
