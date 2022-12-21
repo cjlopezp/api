@@ -1,10 +1,10 @@
 const db = require("../../models");
-const Product = db.Product;
+const Payment = db.Payment;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.name || !req.body.price || !req.body.tax_id || !req.body.category_id || !req.body.valid) {
+    if (!req.body.sale_id || !req.body.client_id || !req.body.payment_method_id || !req.body.reference || !req.body.total_price || !req.body.total_price_base || !req.body.total_price_tax || !req.body.emission_date || !req.body.emission_hour) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -13,17 +13,23 @@ exports.create = (req, res) => {
         return;
     }
 
-    const products = {
-
-        name: req.body.name,
-        price: req.body.price,
-        tax_id: req.body.tax_id,
-        category_id: req.body.category_id,
-        valid: req.body.valid,
-
+    const payment = {
+        
+        sale_id: req.body.sale_id,
+        client_id: req.body.client_id,
+        payment_method_id: req.body.payment_method_id,
+        reference: req.body.reference,
+        total_price: req.body.total_price,
+        total_price_base: req.body.total_price_base,
+        total_price_tax: req.body.total_price_tax,
+        emission_date: req.body.emission_date,
+        emission_hour: req.body.emission_hour,
+        
+        
+       
     };
 
-    Product.create(products).then(data => {
+    Payment.create(payment).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -36,25 +42,41 @@ exports.findAll = (req, res) => {
 
     let whereStatement = {};
 
-    if(req.query.name)
-        whereStatement.name = {[Op.substring]: req.query.name};
+    
 
-    if(req.query.price)
-    whereStatement.price = {[Op.substring]: req.query.price};
+    if(req.query.sale_id)
+        whereStatement.sale_id = {[Op.substring]: req.query.sale_id};
 
-    if(req.query.tax_id)
-    whereStatement.tax_id = {[Op.substring]: req.query.tax_id};
+    if(req.query.client_id)
+    whereStatement.client_id = {[Op.substring]: req.query.client_id}; 
+    
+    if(req.query.payment_method_id)
+    whereStatement.payment_method_id = {[Op.substring]: req.query.payment_method_id}; 
 
-    if(req.query.category_id)
-    whereStatement.category_id = {[Op.substring]: req.query.category_id};
+    if(req.query.reference)
+    whereStatement.reference = {[Op.substring]: req.query.reference}; 
 
-    if(req.query.valid)
-    whereStatement.valid = {[Op.substring]: req.query.valid};
+    if(req.query.total_price)
+    whereStatement.total_price = {[Op.substring]: req.query.total_price};
+    
+    if(req.query.total_price_base)
+    whereStatement.total_price_base = {[Op.substring]: req.query.total_price_base};
+
+    if(req.query.total_price_tax)
+    whereStatement.total_price_tax = {[Op.substring]: req.query.total_price_tax};
+        
+    if(req.query.emission_date)
+    whereStatement.emission_date = {[Op.substring]: req.query.emission_date}; 
+    
+    if(req.query.emission_hour)
+    whereStatement.emission_hour = {[Op.substring]: req.query.emission_hour};
+
+    
 
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    Product.findAll({ where: condition }).then(data => {
+    Payment.findAll({ where: condition }).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -67,7 +89,7 @@ exports.findOne = (req, res) => {
 
     const id = req.params.id;
 
-    Product.findByPk(id).then(data => {
+    Payment.findByPk(id).then(data => {
 
         if (data) {
             res.status(200).send(data);
@@ -88,7 +110,7 @@ exports.update = (req, res) => {
 
     const id = req.params.id;
 
-    Product.update(req.body, {
+    Payment.update(req.body, {
         where: { id: id }
     }).then(num => {
         if (num == 1) {
@@ -111,7 +133,7 @@ exports.delete = (req, res) => {
 
     const id = req.params.id;
 
-    Product.destroy({
+    Payment.destroy({
         where: { id: id }
     }).then(num => {
         if (num == 1) {

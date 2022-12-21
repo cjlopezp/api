@@ -1,10 +1,10 @@
 const db = require("../../models");
-const Product = db.Product;
+const Slider = db.Slider;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.name || !req.body.price || !req.body.tax_id || !req.body.category_id || !req.body.valid) {
+    if (!req.body.name ) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -13,17 +13,13 @@ exports.create = (req, res) => {
         return;
     }
 
-    const products = {
+    const sliders = {
 
         name: req.body.name,
-        price: req.body.price,
-        tax_id: req.body.tax_id,
-        category_id: req.body.category_id,
-        valid: req.body.valid,
 
     };
 
-    Product.create(products).then(data => {
+    Slider.create(sliders).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -39,22 +35,12 @@ exports.findAll = (req, res) => {
     if(req.query.name)
         whereStatement.name = {[Op.substring]: req.query.name};
 
-    if(req.query.price)
-    whereStatement.price = {[Op.substring]: req.query.price};
-
-    if(req.query.tax_id)
-    whereStatement.tax_id = {[Op.substring]: req.query.tax_id};
-
-    if(req.query.category_id)
-    whereStatement.category_id = {[Op.substring]: req.query.category_id};
-
-    if(req.query.valid)
-    whereStatement.valid = {[Op.substring]: req.query.valid};
+    
 
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    Product.findAll({ where: condition }).then(data => {
+    Slider.findAll({ where: condition }).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -67,7 +53,7 @@ exports.findOne = (req, res) => {
 
     const id = req.params.id;
 
-    Product.findByPk(id).then(data => {
+    Slider.findByPk(id).then(data => {
 
         if (data) {
             res.status(200).send(data);
@@ -88,7 +74,7 @@ exports.update = (req, res) => {
 
     const id = req.params.id;
 
-    Product.update(req.body, {
+    Slider.update(req.body, {
         where: { id: id }
     }).then(num => {
         if (num == 1) {
@@ -111,7 +97,7 @@ exports.delete = (req, res) => {
 
     const id = req.params.id;
 
-    Product.destroy({
+    Slider.destroy({
         where: { id: id }
     }).then(num => {
         if (num == 1) {

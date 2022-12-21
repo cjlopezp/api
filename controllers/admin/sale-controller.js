@@ -1,10 +1,10 @@
 const db = require("../../models");
-const Product = db.Product;
+const Sale = db.Sale;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.name || !req.body.price || !req.body.tax_id || !req.body.category_id || !req.body.valid) {
+    if (!req.body.cart_id || !req.body.client_id || !req.body.payment_method_id || !req.body.total_price || !req.body.full_base_price || !req.body.full_tax_price || !req.body.date_issue || !req.body.hour_issue) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -13,17 +13,18 @@ exports.create = (req, res) => {
         return;
     }
 
-    const products = {
-
-        name: req.body.name,
-        price: req.body.price,
-        tax_id: req.body.tax_id,
-        category_id: req.body.category_id,
-        valid: req.body.valid,
-
+    const sale = {
+        cart_id: req.body.cart_id, 
+        client_id: req.body.client_id,
+        payment_method_id: req.body.payment_method_id,
+        total_price: req.body.total_price, 
+        full_base_price: req.body.full_base_price,
+        full_tax_price: req.body.full_tax_price, 
+        date_issue: req.body.date_issue,
+        hour_issue: req.body.hour_issue,
     };
 
-    Product.create(products).then(data => {
+    Sale.create(sale).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -36,25 +37,40 @@ exports.findAll = (req, res) => {
 
     let whereStatement = {};
 
-    if(req.query.name)
-        whereStatement.name = {[Op.substring]: req.query.name};
+   
+        
+    if(req.query.cart_id)
+        whereStatement.cart_id = {[Op.substring]: req.query.cart_id};
 
-    if(req.query.price)
-    whereStatement.price = {[Op.substring]: req.query.price};
+        if(req.query.client_id)
+        whereStatement.client_id = {[Op.substring]: req.query.client_id};
+         
+        if(req.query.payment_method_id)
+        whereStatement.payment_method_id = {[Op.substring]: req.query.payment_method_id};
+        
+        if(req.query.total_price)
+        whereStatement.total_price = {[Op.substring]: req.query.total_price};
+        
+        if(req.query.full_base_price)
+        whereStatement.full_base_price = {[Op.substring]: req.query.full_base_price};
+        
+        if(req.query.full_tax_price)
+        whereStatement.full_tax_price = {[Op.substring]: req.query.full_tax_price};
+        
+        if(req.query.date_issue)
+        whereStatement.date_issue = {[Op.substring]: req.query.date_issue};
+        
+        if(req.query.hour_issue)
+        whereStatement.hour_issue = {[Op.substring]: req.query.hour_issue};
+        
+        
 
-    if(req.query.tax_id)
-    whereStatement.tax_id = {[Op.substring]: req.query.tax_id};
 
-    if(req.query.category_id)
-    whereStatement.category_id = {[Op.substring]: req.query.category_id};
-
-    if(req.query.valid)
-    whereStatement.valid = {[Op.substring]: req.query.valid};
 
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    Product.findAll({ where: condition }).then(data => {
+    Sale.findAll({ where: condition }).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -67,7 +83,7 @@ exports.findOne = (req, res) => {
 
     const id = req.params.id;
 
-    Product.findByPk(id).then(data => {
+    Sale.findByPk(id).then(data => {
 
         if (data) {
             res.status(200).send(data);
@@ -88,7 +104,7 @@ exports.update = (req, res) => {
 
     const id = req.params.id;
 
-    Product.update(req.body, {
+    Sale.update(req.body, {
         where: { id: id }
     }).then(num => {
         if (num == 1) {
@@ -111,7 +127,7 @@ exports.delete = (req, res) => {
 
     const id = req.params.id;
 
-    Product.destroy({
+    Sale.destroy({
         where: { id: id }
     }).then(num => {
         if (num == 1) {

@@ -14,8 +14,10 @@ exports.create = (req, res) => {
     }
 
     const paymentMethod = {
+        
         name: req.body.name,
-        visible: req.body.visible ? req.body.visible : true
+        visible: req.body.visible,
+        
     };
 
     PaymentMethod.create(paymentMethod).then(data => {
@@ -31,11 +33,12 @@ exports.findAll = (req, res) => {
 
     let whereStatement = {};
 
-    if(req.query.visible)
-        whereStatement.visible = {[Op.substring]: req.query.visible};
-
+    
     if(req.query.name)
         whereStatement.name = {[Op.substring]: req.query.name};
+
+    if(req.query.visible)
+        whereStatement.visible = {[Op.substring]: req.query.visible};
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
