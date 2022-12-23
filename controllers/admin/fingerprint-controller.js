@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.id || !req.body.client_id || !req.body.fingerprint) {
+    if (!req.body.client_id || !req.body.fingerprint) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -14,7 +14,6 @@ exports.create = (req, res) => {
     }
 
     const fingerprint = {
-        id: req.body.id,
         client_id: req.body.client_id,
         fingerprint: req.body.fingerprint,
         
@@ -34,14 +33,11 @@ exports.findAll = (req, res) => {
 
     let whereStatement = {};
 
-    if(req.query.id)
-        whereStatement.id = {[Op.substring]: req.query.id};
-
     if(req.query.client_id)
         whereStatement.client_id = {[Op.substring]: req.query.client_id};
 
     if(req.query.fingerprint)
-    whereStatement.fingerprint = {[Op.substring]: req.query.fingerprint};
+        whereStatement.fingerprint = {[Op.substring]: req.query.fingerprint};
     
     
 
