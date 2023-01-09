@@ -1,11 +1,8 @@
 const Sequelize = require('sequelize');
-
 const useBcrypt = require('sequelize-bcrypt');
 
 module.exports = function(sequelize, DataTypes) {
-    
     const User = sequelize.define('User', {
-
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
@@ -14,16 +11,37 @@ module.exports = function(sequelize, DataTypes) {
         },
         name: {
             type: DataTypes.STRING(255),
-            allowNull: false
+            allowNull: false,
+            validator: {
+                notNull: {
+                    msg: 'Por favor, rellena el campo "Nombre".'
+                }
+            }
         },
         email: {
             type: DataTypes.STRING(255),
             allowNull: false,
-            unique: "email"
+            unique: {
+                args: true,
+                msg: 'Ya existe un usuario con ese correo electrónico.'
+            },
+            validator: {
+                notNull: {
+                    msg: 'Por favor, rellena el campo "Email".'
+                },
+                isEmail: {
+                    msg: 'Por favor, rellena el campo "Email" con un email válido.'
+                }
+            }
         },
         password: {
             type: DataTypes.STRING(255),
-            allowNull: true
+            allowNull: true,
+            validator: {
+                notNull: {
+                    msg: 'Por favor, rellena el campo "Contraseña".'
+                }
+            }
         }
     }, {
         sequelize,
@@ -53,5 +71,4 @@ module.exports = function(sequelize, DataTypes) {
     useBcrypt(User);
 
     return User;
-
 };

@@ -6,6 +6,7 @@ var _Company = require("./company");
 var _ConfigurationImage = require("./configuration-image");
 var _Contact = require("./contact");
 var _FailedSale = require("./failed-sale");
+var _Faq = require("./faq");
 var _Fingerprint = require("./fingerprint");
 var _Language = require("./language");
 var _Locale = require("./locale");
@@ -29,6 +30,7 @@ function initModels(sequelize) {
     var ConfigurationImage = _ConfigurationImage(sequelize, DataTypes);
     var Contact = _Contact(sequelize, DataTypes);
     var FailedSale = _FailedSale(sequelize, DataTypes);
+    var Faq = _Faq(sequelize, DataTypes);
     var Fingerprint = _Fingerprint(sequelize, DataTypes);
     var Language = _Language(sequelize, DataTypes);
     var Locale = _Locale(sequelize, DataTypes);
@@ -101,6 +103,7 @@ function initModels(sequelize) {
         ConfigurationImage,
         Contact,
         FailedSale,
+        Faq,
         Fingerprint,
         Language,
         Locale,

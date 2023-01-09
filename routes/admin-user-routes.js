@@ -14,7 +14,7 @@ module.exports = app => {
       next();
   });
 
-  router.post("/",  controller.create);
+  router.post("/", controller.create);
   router.get("/", [authJwt.verifyUserToken], controller.findAll);  
   router.get("/:id", [authJwt.verifyUserToken], controller.findOne);  
   router.put("/:id", [authJwt.verifyUserToken], controller.update);  

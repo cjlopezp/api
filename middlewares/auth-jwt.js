@@ -12,7 +12,7 @@ verifyUserToken = (req, res, next) => {
     }
 
     let token = req.headers.authorization.split(' ')[1];
-
+        console.log(req.headers.authorization)
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
 
         if (err) {

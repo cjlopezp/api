@@ -6,7 +6,7 @@ module.exports = app => {
 
     const controller = require("../controllers/admin/configuration-image-controller.js");
 
-    router.post("/",  controller.create);
+    router.post("/",  [authJwt.verifyUserToken], controller.create);
     router.get("/", [authJwt.verifyUserToken], controller.findAll);  
     router.get("/:id", [authJwt.verifyUserToken], controller.findOne);  
     router.put("/:id", [authJwt.verifyUserToken], controller.update);  
