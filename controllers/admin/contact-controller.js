@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.id || !req.body.name || !req.body.surname || !req.body.phone_number || !req.body.email || !req.body.message_text || !req.body.fingerprint_id) {
+    if (!req.body.id || !req.body.name || !req.body.lastname || !req.body.phone || !req.body.email || !req.body.message_text) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -16,11 +16,11 @@ exports.create = (req, res) => {
     const contact = {
         id: req.body.id,
         name: req.body.name,
-        surname: req.body.surname,
+        lastname: req.body.lastname,
         phone_number: req.body.phone_number,
         email: req.body.email,
         message_text: req.body.message_text,
-        fingerprint_id: req.body.fingerprint_id,
+        
         
        
     };
@@ -45,10 +45,10 @@ exports.findAll = (req, res) => {
         whereStatement.name = {[Op.substring]: req.query.name};
 
     if(req.query.surname)
-    whereStatement.surname = {[Op.substring]: req.query.surname};
+    whereStatement.surname = {[Op.substring]: req.query.lastname};
 
     if(req.query.phone_number)
-    whereStatement.phone_number = {[Op.substring]: req.query.phone_number};
+    whereStatement.phone_number = {[Op.substring]: req.query.phone};
 
     if(req.query.email)
     whereStatement.email = {[Op.substring]: req.query.email};
@@ -56,8 +56,7 @@ exports.findAll = (req, res) => {
     if(req.query.message_text)
     whereStatement.message_text = {[Op.substring]: req.query.message_text};
 
-    if(req.query.fingerprint_id)
-    whereStatement.fingerprint_id = {[Op.substring]: req.query.fingerprint_id};
+    
     
     
 

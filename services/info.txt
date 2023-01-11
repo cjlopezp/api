@@ -1,2 +1,0 @@
-Ejemplo: codigo responsable del redimensionamiento de imagenes
-         Independiente de controladores

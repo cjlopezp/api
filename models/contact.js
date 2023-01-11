@@ -27,14 +27,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        fingerprint_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'fingerprints',
-                key: 'id'
-            }
-        }
+        
     }, {
         sequelize,
         tableName: 'contacts',
