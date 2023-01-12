@@ -4,6 +4,7 @@ var _Carts = require("./carts");
 var _Clients = require("./clients");
 var _Companies = require("./companies");
 var _ConfigurationImages = require("./configuration-images");
+var _Contacts = require("./contacts");
 var _FailedSales = require("./failed-sales");
 var _Faqs = require("./faqs");
 var _FaqsCategories = require("./faqs-categories");
@@ -28,6 +29,7 @@ function initModels(sequelize) {
     var Clients = _Clients(sequelize, DataTypes);
     var Companies = _Companies(sequelize, DataTypes);
     var ConfigurationImages = _ConfigurationImages(sequelize, DataTypes);
+    var Contacts = _Contacts(sequelize, DataTypes);
     var FailedSales = _FailedSales(sequelize, DataTypes);
     var Faqs = _Faqs(sequelize, DataTypes);
     var FaqsCategories = _FaqsCategories(sequelize, DataTypes);
@@ -99,6 +101,7 @@ function initModels(sequelize) {
         Clients,
         Companies,
         ConfigurationImages,
+        Contacts,
         FailedSales,
         Faqs,
         FaqsCategories,

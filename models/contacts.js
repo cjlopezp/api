@@ -11,11 +11,11 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        surname: {
+        lastname: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        phone_number: {
+        phone: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -23,20 +23,24 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        message_text: {
+        mesagge: {
             type: DataTypes.STRING(255),
             allowNull: false
-        },
-        createdAt: {
-            allowNull: false,
-            type: Sequelize.DATE
-        },
-        updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-        },
-        deletedAt: {
-        type: Sequelize.DATE
-        }            
+        }
+    }, {
+        sequelize,
+        tableName: 'contacts',
+        timestamps: true,
+        paranoid: true,
+        indexes: [
+            {
+                name: "PRIMARY",
+                unique: true,
+                using: "BTREE",
+                fields: [
+                    { name: "id" },
+                ]
+            },
+        ]
     });
 };

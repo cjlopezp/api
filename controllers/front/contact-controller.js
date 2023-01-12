@@ -4,7 +4,7 @@ exports.create = (req, res) => {
 
     let email = {
         subject: 'Nuevo mensaje de un usuario',
-        content: `Hola acaba de llegar un correo de ${req.body.name} y lo que ha dicho es: ${req.body.message}`
+        content: `Hola acaba de llegar un correo de ${req.body.name} Mensaje: ${req.body.message}`
     }
 
     new EmailService("gmail").sendEmail(email);
