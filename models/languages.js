@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Slider', {
+    return sequelize.define('Languages', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
@@ -10,10 +10,14 @@ module.exports = function(sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING(255),
             allowNull: false
+        },
+        alias: {
+            type: DataTypes.STRING(255),
+            allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'sliders',
+        tableName: 'languages',
         timestamps: true,
         paranoid: true,
         indexes: [

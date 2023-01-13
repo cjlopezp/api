@@ -1,23 +1,23 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Tax', {
+    return sequelize.define('ProductCategories', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        type: {
-            type: DataTypes.INTEGER,
+        name: {
+            type: DataTypes.STRING(255),
             allowNull: false
         },
-        valid: {
+        visible: {
             type: DataTypes.BOOLEAN,
             allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'taxes',
+        tableName: 'product_categories',
         timestamps: true,
         paranoid: true,
         indexes: [

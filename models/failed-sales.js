@@ -1,17 +1,17 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Sale', {
+    return sequelize.define('FailedSales', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        cart_id: {
+        payment_method_id: {
             type: DataTypes.INTEGER,
             allowNull: true,
             references: {
-                model: 'carts',
+                model: 'payment_methods',
                 key: 'id'
             }
         },
@@ -23,37 +23,25 @@ module.exports = function(sequelize, DataTypes) {
                 key: 'id'
             }
         },
-        payment_method_id: {
+        cart_id: {
             type: DataTypes.INTEGER,
             allowNull: true,
             references: {
-                model: 'payment_methods',
+                model: 'carts',
                 key: 'id'
             }
         },
-        total_price: {
-            type: DataTypes.FLOAT(10,2),
-            allowNull: false
+        error_code: {
+            type: DataTypes.INTEGER,
+            allowNull: true
         },
-        full_base_price: {
-            type: DataTypes.FLOAT(10,2),
-            allowNull: false
-        },
-        full_tax_price: {
-            type: DataTypes.FLOAT(10,2),
-            allowNull: false
-        },
-        date_issue: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        hour_issue: {
-            type: DataTypes.TIME,
-            allowNull: false
+        error_message: {
+            type: DataTypes.STRING(255),
+            allowNull: true
         }
     }, {
         sequelize,
-        tableName: 'sales',
+        tableName: 'failed_sales',
         timestamps: true,
         paranoid: true,
         indexes: [
@@ -66,10 +54,10 @@ module.exports = function(sequelize, DataTypes) {
                 ]
             },
             {
-                name: "cart_id",
+                name: "payment_method_id",
                 using: "BTREE",
                 fields: [
-                    { name: "cart_id" },
+                    { name: "payment_method_id" },
                 ]
             },
             {
@@ -80,10 +68,10 @@ module.exports = function(sequelize, DataTypes) {
                 ]
             },
             {
-                name: "payment_method_id",
+                name: "cart_id",
                 using: "BTREE",
                 fields: [
-                    { name: "payment_method_id" },
+                    { name: "cart_id" },
                 ]
             },
         ]

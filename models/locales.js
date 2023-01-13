@@ -1,31 +1,39 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Cart', {
+    return sequelize.define('Locales', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        client_id: {
+        language_alias: {
             type: DataTypes.INTEGER,
             allowNull: true,
             references: {
-                model: 'clients',
+                model: 'languages',
                 key: 'id'
             }
         },
-        fingerprint_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'fingerprints',
-                key: 'id'
-            }
+        entity: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        entity_key: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        key: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        value: {
+            type: DataTypes.STRING(255),
+            allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'carts',
+        tableName: 'locales',
         timestamps: true,
         paranoid: true,
         indexes: [
@@ -38,17 +46,10 @@ module.exports = function(sequelize, DataTypes) {
                 ]
             },
             {
-                name: "client_id",
+                name: "language_alias",
                 using: "BTREE",
                 fields: [
-                    { name: "client_id" },
-                ]
-            },
-            {
-                name: "fingerprint_id",
-                using: "BTREE",
-                fields: [
-                    { name: "fingerprint_id" },
+                    { name: "language_alias" },
                 ]
             },
         ]

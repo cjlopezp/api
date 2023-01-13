@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.id || !req.body.name || !req.body.lastname || !req.body.phone || !req.body.email || !req.body.message_text) {
+    if (!req.body.id || !req.body.name || !req.body.lastname || !req.body.phone || !req.body.email || !req.body.message) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -17,9 +17,9 @@ exports.create = (req, res) => {
         id: req.body.id,
         name: req.body.name,
         lastname: req.body.lastname,
-        phone_number: req.body.phone_number,
+        phone_number: req.body.phone,
         email: req.body.email,
-        message_text: req.body.message_text,
+        message_text: req.body.message,
         
         
        
@@ -54,7 +54,7 @@ exports.findAll = (req, res) => {
     whereStatement.email = {[Op.substring]: req.query.email};
 
     if(req.query.message_text)
-    whereStatement.message_text = {[Op.substring]: req.query.message_text};
+    whereStatement.message_text = {[Op.substring]: req.query.message};
 
     
     

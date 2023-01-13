@@ -1,42 +1,18 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('PaymentDetail', {
+    return sequelize.define('Products', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        payment_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'payment_details',
-                key: 'id'
-            }
-        },
-        product_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'products',
-                key: 'id'
-            }
-        },
-        amount: {
-            type: DataTypes.INTEGER,
+        name: {
+            type: DataTypes.STRING(255),
             allowNull: false
         },
         price: {
-            type: DataTypes.FLOAT(10,2),
-            allowNull: false
-        },
-        unit_measurement: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        product_name: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         tax_id: {
@@ -46,10 +22,22 @@ module.exports = function(sequelize, DataTypes) {
                 model: 'taxes',
                 key: 'id'
             }
+        },
+        category_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'product_categories',
+                key: 'id'
+            }
+        },
+        valid: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'payment_details',
+        tableName: 'products',
         timestamps: true,
         paranoid: true,
         indexes: [
@@ -62,24 +50,17 @@ module.exports = function(sequelize, DataTypes) {
                 ]
             },
             {
-                name: "payment_id",
-                using: "BTREE",
-                fields: [
-                    { name: "payment_id" },
-                ]
-            },
-            {
-                name: "product_id",
-                using: "BTREE",
-                fields: [
-                    { name: "product_id" },
-                ]
-            },
-            {
                 name: "tax_id",
                 using: "BTREE",
                 fields: [
                     { name: "tax_id" },
+                ]
+            },
+            {
+                name: "category_id",
+                using: "BTREE",
+                fields: [
+                    { name: "category_id" },
                 ]
             },
         ]

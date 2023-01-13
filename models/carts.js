@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Fingerprint', {
+    return sequelize.define('Carts', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
@@ -15,13 +15,17 @@ module.exports = function(sequelize, DataTypes) {
                 key: 'id'
             }
         },
-        fingerprint: {
-            type: DataTypes.STRING(255),
-            allowNull: false
+        fingerprint_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'fingerprints',
+                key: 'id'
+            }
         }
     }, {
         sequelize,
-        tableName: 'fingerprints',
+        tableName: 'carts',
         timestamps: true,
         paranoid: true,
         indexes: [
@@ -38,6 +42,13 @@ module.exports = function(sequelize, DataTypes) {
                 using: "BTREE",
                 fields: [
                     { name: "client_id" },
+                ]
+            },
+            {
+                name: "fingerprint_id",
+                using: "BTREE",
+                fields: [
+                    { name: "fingerprint_id" },
                 ]
             },
         ]

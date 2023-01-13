@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Product', {
+    return sequelize.define('Companies', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
@@ -11,33 +11,33 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        price: {
+        phone_number: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        tax_id: {
+        mobile_number: {
             type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'taxes',
-                key: 'id'
-            }
+            allowNull: false
         },
-        category_id: {
+        cif_number: {
             type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'product_categories',
-                key: 'id'
-            }
+            allowNull: false
         },
-        valid: {
-            type: DataTypes.BOOLEAN,
+        opening_days: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        customer_service_days: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        visible: {
+            type: DataTypes.STRING(255),
             allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'products',
+        tableName: 'companies',
         timestamps: true,
         paranoid: true,
         indexes: [
@@ -47,20 +47,6 @@ module.exports = function(sequelize, DataTypes) {
                 using: "BTREE",
                 fields: [
                     { name: "id" },
-                ]
-            },
-            {
-                name: "tax_id",
-                using: "BTREE",
-                fields: [
-                    { name: "tax_id" },
-                ]
-            },
-            {
-                name: "category_id",
-                using: "BTREE",
-                fields: [
-                    { name: "category_id" },
                 ]
             },
         ]

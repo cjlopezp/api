@@ -32,7 +32,7 @@ module.exports = {
         allowNull: false,
       },
 
-      mesagge: {
+      message: {
         type: Sequelize.STRING,
         allowNull: false,
       },

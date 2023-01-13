@@ -1,11 +1,27 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('OriginalImage', {
+    return sequelize.define('ResizedImages', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
+        },
+        image_original_id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false
+        },
+        image_configuration_id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false
+        },
+        title: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        alt: {
+            type: DataTypes.STRING(255),
+            allowNull: false
         },
         path: {
             type: DataTypes.STRING(255),
@@ -16,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         entity_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(255),
             allowNull: false
         },
         language_alias: {
@@ -35,12 +51,16 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        mime_type: {
+        mime_typecontent: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        size: {
-            type: DataTypes.INTEGER.UNSIGNED,
+        grid: {
+            type: DataTypes.ENUM('desktop','mobile','preview','any'),
+            allowNull: false
+        },
+        size_bytes: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         width_px: {
@@ -50,10 +70,14 @@ module.exports = function(sequelize, DataTypes) {
         height_px: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false
+        },
+        quality: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'original_images',
+        tableName: 'resized_images',
         timestamps: true,
         paranoid: true,
         indexes: [
