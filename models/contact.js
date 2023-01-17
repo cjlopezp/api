@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Contacts', {
+    return sequelize.define('Contact', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        mesagge: {
+        message: {
             type: DataTypes.STRING(255),
             allowNull: false
         }

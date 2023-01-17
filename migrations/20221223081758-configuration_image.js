@@ -29,9 +29,9 @@ module.exports = {
       },
       grid: {
         allowNull: false,
-        type: Sequelize.ENUM(['desktop', 'mobile', 'preview'])
+        type: Sequelize.ENUM(['desktop', 'mobile', 'thumbnail'])
       },
-      content_acepted: {
+      content_accepted: {
         allowNull: false,
         type: Sequelize.STRING
       },

@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.entity || !req.body.directory  || !req.body.type  || !req.body.content  || !req.body.grid  || !req.body.content_acepted  || !req.body.extension_conversion  || !req.body.width_px  || !req.body.height_px  || !req.body.quality) {
+    if (!req.body.entity || !req.body.directory  || !req.body.type  || !req.body.content  || !req.body.grid  || !req.body.content_accepted  || !req.body.extension_conversion  || !req.body.width_px  || !req.body.height_px  || !req.body.quality) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -21,7 +21,7 @@ exports.create = (req, res) => {
         type: req.body.type,
         content: req.body.content,
         grid: req.body.grid,
-        content_aceepted: req.body.content_aceepted,
+        content_accepted: req.body.content_accepted,
         extension_conversion: req.body.extension_conversion,
         width_px: req.body.width_px,
         height_px: req.body.height_px,
@@ -67,7 +67,7 @@ exports.findAll = (req, res) => {
     if(req.query.grid)
     whereStatement.grid = {[Op.substring]: req.query.grid};
     
-    if(req.query.content_acepted)
+    if(req.query.content_accepted)
     whereStatement.content_acepted = {[Op.substring]: req.query.content_acepted};
     
     if(req.query.extension_conversion)

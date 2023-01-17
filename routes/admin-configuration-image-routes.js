@@ -1,4 +1,4 @@
-module.exports = app => {
+module.exports = (app,upload) => {
 
     const router = require("express").Router();
 
@@ -6,7 +6,11 @@ module.exports = app => {
 
     const controller = require("../controllers/admin/configuration-image-controller.js");
 
-    router.post("/",  [authJwt.verifyUserToken], controller.create);
+    let uploadFields = upload.fields([
+        {name: 'image', maxCount: 1},
+    ])
+
+    router.post("/",  [authJwt.verifyUserToken, uploadFields], controller.create);
     router.get("/", [authJwt.verifyUserToken], controller.findAll);  
     router.get("/:id", [authJwt.verifyUserToken], controller.findOne);  
     router.put("/:id", [authJwt.verifyUserToken], controller.update);  
