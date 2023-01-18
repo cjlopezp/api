@@ -3,52 +3,22 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    
-    await queryInterface.createTable('resized_images', {
+    await queryInterface.createTable('image_configurations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      image_original_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
-      },
-      image_configuration_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
-      },
-      title: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      alt: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      path: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       entity: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      entity_id: {
+      directory: {
         allowNull: false,
         type: Sequelize.STRING
       },
-
-
-      language_alias: {
-        type: Sequelize.INTEGER,
-          references: {
-            model: 'languages',
-            key: 'id'
-          }
-      },  
-      filename: {
+      type: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -56,30 +26,29 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-
-      mime_typecontent: {
+      grid: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      grid: {
+      contentAccepted: {
         allowNull: false,
-        type: Sequelize.ENUM(['desktop', 'mobile', 'preview', 'any'])
+        type: Sequelize.STRING
       },
-      size_bytes: {
+      extensionConversion: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      widthPx: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      width_px: {
+      heightPx: {
         allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
-      },
-      height_px: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
+        type: Sequelize.INTEGER
       },
       quality: {
-          allowNull: false,
-          type: Sequelize.INTEGER.UNSIGNED
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -90,13 +59,12 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: true,
         type: Sequelize.DATE
       }
     });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('resized_images');
+    await queryInterface.dropTable('image_configurations');
   }
 };

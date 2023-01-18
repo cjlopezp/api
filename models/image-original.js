@@ -1,21 +1,29 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('ConfigurationImage', {
+    return sequelize.define('ImageOriginal', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
+        path: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
         entity: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        directory: {
+        entityId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        languageAlias: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        type: {
+        filename: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
@@ -23,33 +31,25 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        grid: {
-            type: DataTypes.ENUM('desktop','mobile','thumbnail'),
-            allowNull: false
-        },
-        content_accepted: {
+        mimeType: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        extension_conversion: {
-            type: DataTypes.STRING(255),
+        sizeBytes: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
-        width_px: {
-            type: DataTypes.INTEGER.UNSIGNED,
+        widthPx: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
-        height_px: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            allowNull: false
-        },
-        quality: {
-            type: DataTypes.INTEGER.UNSIGNED,
+        heightPx: {
+            type: DataTypes.INTEGER,
             allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'configuration_images',
+        tableName: 'image_originals',
         timestamps: true,
         paranoid: true,
         indexes: [

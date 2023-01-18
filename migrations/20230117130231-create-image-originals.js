@@ -3,23 +3,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    
-    await queryInterface.createTable('configuration_images', {
+    await queryInterface.createTable('image_originals', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      path: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       entity: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      directory: {
+      entityId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      languageAlias: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      type: {
+      filename: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -27,32 +34,22 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      grid: {
-        allowNull: false,
-        type: Sequelize.ENUM(['desktop', 'mobile', 'thumbnail'])
-      },
-      content_accepted: {
+      mimeType: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      extension_conversion: {
+      sizeBytes: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
-
-      width_px: {
+      widthPx: {
         allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
+        type: Sequelize.INTEGER
       },
-      height_px: {
+      heightPx: {
         allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
+        type: Sequelize.INTEGER
       },
-      quality: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
-      },
-      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -62,14 +59,12 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: true,
         type: Sequelize.DATE
       }
     });
   },
 
   async down (queryInterface, Sequelize) {
-    
-    await queryInterface.dropTable('configuration_images');
+    await queryInterface.dropTable('image_originals');
   }
 };

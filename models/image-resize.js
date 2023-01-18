@@ -1,11 +1,27 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('OriginalImage', {
+    return sequelize.define('ImageResize', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
+        },
+        configurationId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        originalId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        title: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        alt: {
+            type: DataTypes.STRING(255),
+            allowNull: false
         },
         path: {
             type: DataTypes.STRING(255),
@@ -15,17 +31,13 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        entity_id: {
+        entityId: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        language_alias: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'languages',
-                key: 'id'
-            }
+        languageAlias: {
+            type: DataTypes.STRING(255),
+            allowNull: false
         },
         filename: {
             type: DataTypes.STRING(255),
@@ -35,25 +47,33 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        mime_type: {
+        mimeType: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        size: {
-            type: DataTypes.INTEGER.UNSIGNED,
+        grid: {
+            type: DataTypes.STRING(255),
             allowNull: false
         },
-        width_px: {
-            type: DataTypes.INTEGER.UNSIGNED,
+        sizeBytes: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
-        height_px: {
-            type: DataTypes.INTEGER.UNSIGNED,
+        widthPx: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        heightPx: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        quality: {
+            type: DataTypes.INTEGER,
             allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'original_images',
+        tableName: 'image_resizes',
         timestamps: true,
         paranoid: true,
         indexes: [
@@ -63,13 +83,6 @@ module.exports = function(sequelize, DataTypes) {
                 using: "BTREE",
                 fields: [
                     { name: "id" },
-                ]
-            },
-            {
-                name: "language_alias",
-                using: "BTREE",
-                fields: [
-                    { name: "language_alias" },
                 ]
             },
         ]

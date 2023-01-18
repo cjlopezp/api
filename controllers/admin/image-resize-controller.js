@@ -1,10 +1,10 @@
 const db = require("../../models");
-const ResizedImage = db.ResizedImage;
+const ImageResize = db.ImageResize;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.client_id || !req.body.fingerprint_id  || !req.body.image_original_id  || !req.body.image_configuration_id  || !req.body.title  || !req.body.alt  || !req.body.path  || !req.body.entity  || !req.body.language_alias  || !req.body.filename  || !req.body.content  || !req.body.mime_typecontent  || !req.body.grid  || !req.body.size_bytes  || !req.body.width_px  || !req.body.height_px   || !req.body.quality) {
+    if (!req.body.imageConfigurationId || !req.body.imageOriginalId  || !req.body.title  || !req.body.alt  || !req.body.path  || !req.body.entity  || !req.body.entityId  || !req.body.languageAlias  || !req.body.filename  || !req.body.content  || !req.body.mimeType  || !req.body.grid  || !req.body.sizeBytes  || !req.body.widthPx  || !req.body.heightPx  || !req.body.quality) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -13,27 +13,30 @@ exports.create = (req, res) => {
         return;
     }
 
-    const resizedImage = {
+    const configurationImage = {
         
-        image_original_id: req.body.image_original_id,
-        image_configuration_id: req.body.image_configuration_id,
+             
+        imageConfigurationId: req.body.imageConfigurationId,
+        imageOriginalId: req.body.imageOriginalId,
         title: req.body.title,
         alt: req.body.alt,
         path: req.body.path,
         entity: req.body.entity,
-        language_alias: req.body.language_alias,
+        entityId: req.body.entityId,
+        languageAlias: req.body.languageAlias,
         filename: req.body.filename,
         content: req.body.content,
-        mime_typecontent: req.body.mime_typecontent,
+        mimeType: req.body.mimeType,
         grid: req.body.grid,
-        size_bytes: req.body.size_bytes,
-        width_px: req.body.width_px,
-        height_px: req.body.height_px,
+        sizeBytes: req.body.sizeBytes,
+        widthPx: req.body.widthPx,
+        heightPx: req.body.heightPx,
         quality: req.body.quality,
+
        
     };
 
-    ResizedImage.create(resizedImage).then(data => {
+    ConfigurationImage.create(configurationImage).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -46,19 +49,61 @@ exports.findAll = (req, res) => {
 
     let whereStatement = {};
 
-    if(req.query.client_id)
-        whereStatement.client_id = {[Op.substring]: req.query.client_id};
+    if(req.query.imageConfigurationId)
+        whereStatement.imageConfigurationId = {[Op.substring]: req.query.imageConfigurationId};
 
-    if(req.query.fingerprint_id)
-        whereStatement.fingerprint_id = {[Op.substring]: req.query.fingerprint_id}; 
+    if(req.query.imageOriginalId)
+        whereStatement.imageOriginalId = {[Op.substring]: req.query.imageOriginalId}; 
     
-    
-    
+    if(req.query.title)
+    whereStatement.title = {[Op.substring]: req.query.title};
 
+    if(req.query.alt)
+    whereStatement.alt = {[Op.substring]: req.query.alt};
 
+    if(req.query.path)
+    whereStatement.path = {[Op.substring]: req.query.path};
+
+    if(req.query.directory)
+    whereStatement.directory = {[Op.substring]: req.query.directory};
+
+    if(req.query.entity)
+    whereStatement.entity = {[Op.substring]: req.query.entity};    
+
+    if(req.query.entityId)
+    whereStatement.entityId = {[Op.substring]: req.query.entityId};
+    
+    if(req.query.languageAlias)
+    whereStatement.languageAlias = {[Op.substring]: req.query.languageAlias};
+    
+    if(req.query.filename)
+    whereStatement.filename = {[Op.substring]: req.query.filename};
+
+    if(req.query.content)
+    whereStatement.content = {[Op.substring]: req.query.content};
+
+    if(req.query.mimeType)
+    whereStatement.mimeType = {[Op.substring]: req.query.mimeType};
+
+    if(req.query.grid)
+    whereStatement.grid = {[Op.substring]: req.query.grid};
+
+    if(req.query.sizeBytes)
+    whereStatement.sizeBytes = {[Op.substring]: req.query.sizeBytes};
+    
+    if(req.query.widthPx)
+    whereStatement.width_px = {[Op.substring]: req.query.width_px};
+    
+    if(req.query.heightPx)
+    whereStatement.height_px = {[Op.substring]: req.query.height_px}
+    
+    if(req.query.quality)
+    whereStatement.quality = {[Op.substring]: req.query.quality}
+        
+    
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    ResizedImage.findAll({ where: condition }).then(data => {
+    ConfigurationImage.findAll({ where: condition }).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -71,7 +116,7 @@ exports.findOne = (req, res) => {
 
     const id = req.params.id;
 
-    ResizedImage.findByPk(id).then(data => {
+    ConfigurationImage.findByPk(id).then(data => {
 
         if (data) {
             res.status(200).send(data);
@@ -92,7 +137,7 @@ exports.update = (req, res) => {
 
     const id = req.params.id;
 
-    ResizedImage.update(req.body, {
+    ConfigurationImage.update(req.body, {
         where: { id: id }
     }).then(num => {
         if (num == 1) {
@@ -115,7 +160,7 @@ exports.delete = (req, res) => {
 
     const id = req.params.id;
 
-    ResizedImage.destroy({
+    ConfigurationImage.destroy({
         where: { id: id }
     }).then(num => {
         if (num == 1) {

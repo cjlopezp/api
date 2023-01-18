@@ -3,57 +3,77 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    
-    await queryInterface.createTable('original_images', {
+    await queryInterface.createTable('image_resizes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      imageConfigurationId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      imageOriginalId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      title: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      alt: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       path: {
         allowNull: false,
         type: Sequelize.STRING
-      },      
+      },
       entity: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      entity_id: {
+      entityId: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      language_alias: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'languages',
-          key: 'id'
-        }
-      },         
+      languageAlias: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       filename: {
         allowNull: false,
         type: Sequelize.STRING
-      },  
+      },
       content: {
         allowNull: false,
         type: Sequelize.STRING
-      }, 
-      mime_type: {
+      },
+      mimeType: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      size: {
+      grid: {
         allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
+        type: Sequelize.STRING
       },
-      width_px: {
+      sizeBytes: {
         allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
+        type: Sequelize.INTEGER
       },
-      height_px: {
+      widthPx: {
         allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
-      },       
+        type: Sequelize.INTEGER
+      },
+      heightPx: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      quality: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -63,14 +83,12 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: true,
         type: Sequelize.DATE
       }
     });
   },
 
   async down (queryInterface, Sequelize) {
-    
-    await queryInterface.dropTable('original_images');
+    await queryInterface.dropTable('image_resizes');
   }
 };

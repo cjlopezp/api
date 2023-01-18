@@ -1,10 +1,10 @@
 const db = require("../../models");
-const ConfigurationImage = db.ConfigurationImage;
+const ImageOriginal = db.ImageOriginal;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.entity || !req.body.directory  || !req.body.type  || !req.body.content  || !req.body.grid  || !req.body.content_accepted  || !req.body.extension_conversion  || !req.body.width_px  || !req.body.height_px  || !req.body.quality) {
+    if (!req.body.path  || !req.body.entity  || !req.body.entityId  || !req.body.languageAlias  || !req.body.filename  || !req.body.content  || !req.body.mimeType  || !req.body.sizeBytes  || !req.body.widthPx  || !req.body.heightPx) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -14,20 +14,18 @@ exports.create = (req, res) => {
     }
 
     const configurationImage = {
-        
-             
+                           
+        path: req.body.path,       
         entity: req.body.entity,
-        directory: req.body.directory,
-        type: req.body.type,
+        entityId: req.body.entityId,
+        languageAlias: req.body.languageAlias,
+        filename: req.body.filename,
         content: req.body.content,
-        grid: req.body.grid,
-        content_accepted: req.body.content_accepted,
-        extension_conversion: req.body.extension_conversion,
-        width_px: req.body.width_px,
-        height_px: req.body.height_px,
-        quality: req.body.quality,
-
-       
+        mimeType: req.body.mimeType,        
+        sizeBytes: req.body.sizeBytes,
+        widthPx: req.body.widthPx,
+        heightPx: req.body.heightPx,
+               
     };
 
     ConfigurationImage.create(configurationImage).then(data => {
@@ -43,44 +41,41 @@ exports.findAll = (req, res) => {
 
     let whereStatement = {};
 
-    if(req.query.entity)
-        whereStatement.entity = {[Op.substring]: req.query.entity};
-
-    if(req.query.directory)
-        whereStatement.directory = {[Op.substring]: req.query.directory}; 
     
+    if(req.query.path)
+    whereStatement.path = {[Op.substring]: req.query.path};
+
     if(req.query.directory)
     whereStatement.directory = {[Op.substring]: req.query.directory};
 
-    if(req.query.type)
-    whereStatement.type = {[Op.substring]: req.query.type};
+    if(req.query.entity)
+    whereStatement.entity = {[Op.substring]: req.query.entity};    
+
+    if(req.query.entityId)
+    whereStatement.entityId = {[Op.substring]: req.query.entityId};
+    
+    if(req.query.languageAlias)
+    whereStatement.languageAlias = {[Op.substring]: req.query.languageAlias};
+    
+    if(req.query.filename)
+    whereStatement.filename = {[Op.substring]: req.query.filename};
 
     if(req.query.content)
     whereStatement.content = {[Op.substring]: req.query.content};
 
-    if(req.query.directory)
-    whereStatement.directory = {[Op.substring]: req.query.directory};
+    if(req.query.mimeType)
+    whereStatement.mimeType = {[Op.substring]: req.query.mimeType};
 
-    if(req.query.content)
-    whereStatement.content = {[Op.substring]: req.query.content};    
-
-    if(req.query.grid)
-    whereStatement.grid = {[Op.substring]: req.query.grid};
+    if(req.query.sizeBytes)
+    whereStatement.sizeBytes = {[Op.substring]: req.query.sizeBytes};
     
-    if(req.query.content_accepted)
-    whereStatement.content_acepted = {[Op.substring]: req.query.content_acepted};
-    
-    if(req.query.extension_conversion)
-    whereStatement.extension_conversion = {[Op.substring]: req.query.extension_conversion};
-    
-    if(req.query.width_px)
+    if(req.query.widthPx)
     whereStatement.width_px = {[Op.substring]: req.query.width_px};
     
-    if(req.query.height_px)
+    if(req.query.heightPx)
     whereStatement.height_px = {[Op.substring]: req.query.height_px}
     
-    if(req.query.quality)
-    whereStatement.quality = {[Op.substring]: req.query.quality}
+    
         
     
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
