@@ -17,9 +17,9 @@ exports.create = (req, res) => {
         id: req.body.id,
         name: req.body.name,
         lastname: req.body.lastname,
-        phone_number: req.body.phone_number,
+        phone_number: req.body.phone,
         email: req.body.email,
-        message_text: req.body.message_text,
+        message_text: req.body.message,
         
         
        
