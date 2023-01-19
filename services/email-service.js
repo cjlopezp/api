@@ -3,6 +3,10 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const dotenv = require('dotenv').config();
 const process = require('process');
+//se indica la localizacion del modelo
+const db = require("../models");
+//se especifica el nombre de la tabla en la base de datos
+const Emails = db.Emails;
 
 module.exports = class EmailService {
 
@@ -31,7 +35,7 @@ module.exports = class EmailService {
         else if(type === 'gmail') {
 
             this.email = process.env.GOOGLE_EMAIL; 
-
+                //Aqui se indica la ruta donde se encuentran los tokens para poder usar el servicio de Gmail
             this.transport = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
@@ -63,8 +67,9 @@ module.exports = class EmailService {
         return myAccessToken;
     }
 
+        //la secuencia de eventos provenientes de contact-controller.js se conecta aquí
     sendEmail(email, destination = this.email) {
-
+        //se crea una variable con multiples atributos para ser enviados 
         const mailOptions = {
             from: this.email, 
             to: destination,
@@ -72,11 +77,23 @@ module.exports = class EmailService {
             html: email.content
         }
 
+
         this.transport.sendMail(mailOptions, function (err, result) {
             if (err) {
                 console.log(err);
             } else {
-                console.log("he enviado el correo");
+                
+                //se crea una nueva variable que contien los datos que nos interesa capturar en la tabla "emails"
+                const data = {
+                    destination: destination,
+                    message: email.content, 
+                };
+                //se confirma la captura de los datos o si hay algun fallo
+                Emails.create(data).then(data => {
+                    console.log("todo bien");
+                }).catch(err => {
+                    console.log(err);
+                });
             }
         });
     }

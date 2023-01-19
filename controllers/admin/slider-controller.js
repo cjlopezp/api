@@ -1,31 +1,34 @@
 const db = require("../../models");
+const ImageService = require('../../services/image-service.js');
 const Slider = db.Slider;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.name ) {
+    new ImageService('slider', 1).uploadImage(req.files);
 
-        res.status(400).send({
-            message: "Faltan campos por rellenar."
-        });
+    // if (!req.body.name ) {
 
-        return;
-    }
+    //     res.status(400).send({
+    //         message: "Faltan campos por rellenar."
+    //     });
 
-    const sliders = {
+    //     return;
+    // }
 
-        name: req.body.name,
+    // const sliders = {
 
-    };
+    //     name: req.body.name,
 
-    Slider.create(sliders).then(data => {
-        res.status(200).send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Algún error ha surgido al insertar el dato."
-        });
-    });
+    // };
+
+    // Slider.create(sliders).then(data => {
+    //     res.status(200).send(data);
+    // }).catch(err => {
+    //     res.status(500).send({
+    //         message: err.message || "Algún error ha surgido al insertar el dato."
+    //     });
+    // });
 };
 
 exports.findAll = (req, res) => {
