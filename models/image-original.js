@@ -7,43 +7,43 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             primaryKey: true
         },
-        path: {
+        imageConfigurationId: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        originalFilename: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        resizedFilename: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
         entity: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         entityId: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        languageAlias: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        filename: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        content: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        mimeType: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
         sizeBytes: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        widthPx: {
-            type: DataTypes.INTEGER,
+        mediaQuery: {
+            type: DataTypes.STRING(255),
             allowNull: false
         },
-        heightPx: {
+        name: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        languageAlias: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        latency: {
             type: DataTypes.INTEGER,
             allowNull: false
         }

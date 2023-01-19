@@ -11,27 +11,11 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        directory: {
+        name: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        type: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        content: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        grid: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        contentAccepted: {
-            type: DataTypes.STRING(255),
-            allowNull: false
-        },
-        extensionConversion: {
+        mediaQuery: {
             type: DataTypes.STRING(255),
             allowNull: false
         },

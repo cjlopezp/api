@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.path  || !req.body.entity  || !req.body.entityId  || !req.body.languageAlias  || !req.body.filename  || !req.body.content  || !req.body.mimeType  || !req.body.sizeBytes  || !req.body.widthPx  || !req.body.heightPx) {
+    if (!req.body.mageConfigurationId  || !req.body.originalFilename  || !req.body.resizedFilename  || !req.body.entity  || !req.body.entityId  || !req.body.sizeBytes  || !req.body.mediaQuery  || !req.body.name  || !req.body.languageAlias  || !req.body.latency  || !req.body.createdAt  || !req.body.updatedAt  || !req.body.deletedAt) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
