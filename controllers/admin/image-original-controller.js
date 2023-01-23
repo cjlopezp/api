@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
 
-    if (!req.body.mageConfigurationId  || !req.body.originalFilename  || !req.body.resizedFilename  || !req.body.entity  || !req.body.entityId  || !req.body.sizeBytes  || !req.body.mediaQuery  || !req.body.name  || !req.body.languageAlias  || !req.body.latency  || !req.body.createdAt  || !req.body.updatedAt  || !req.body.deletedAt) {
+    if (!req.body.imageConfigurationId  || !req.body.originalFilename  || !req.body.resizedFilename  || !req.body.entity  || !req.body.entityId  || !req.body.sizeBytes  || !req.body.mediaQuery  || !req.body.name  || !req.body.languageAlias  || !req.body.latency  || !req.body.createdAt  || !req.body.updatedAt  || !req.body.deletedAt) {
 
         res.status(400).send({
             message: "Faltan campos por rellenar."
@@ -14,17 +14,16 @@ exports.create = (req, res) => {
     }
 
     const configurationImage = {
-                           
-        path: req.body.path,       
+        
+        imageConfigurationId: req.body.imageConfigurationId,
+        originalFilename: req.body.originalFilename,
+        resizedFilename: req.body.resizedFilename,
         entity: req.body.entity,
-        entityId: req.body.entityId,
-        languageAlias: req.body.languageAlias,
-        filename: req.body.filename,
-        content: req.body.content,
-        mimeType: req.body.mimeType,        
         sizeBytes: req.body.sizeBytes,
-        widthPx: req.body.widthPx,
-        heightPx: req.body.heightPx,
+        mediaQuery: req.body.mediaQuery,
+        name: req.body.name,
+        languageAlias: req.body.languageAlias,
+        latency: req.body.latency,
                
     };
 
@@ -42,20 +41,20 @@ exports.findAll = (req, res) => {
     let whereStatement = {};
 
     
-    if(req.query.path)
-    whereStatement.path = {[Op.substring]: req.query.path};
+    if(req.query.imageConfigurationId)
+    whereStatement.imageConfigurationId = {[Op.substring]: req.query.imageConfigurationId};
 
-    if(req.query.directory)
-    whereStatement.directory = {[Op.substring]: req.query.directory};
+    if(req.query.originalFilename)
+    whereStatement.originalFilename = {[Op.substring]: req.query.originalFilename};
 
-    if(req.query.entity)
-    whereStatement.entity = {[Op.substring]: req.query.entity};    
+    if(req.query.resizedFilename)
+    whereStatement.resizedFilename = {[Op.substring]: req.query.resizedFilename};    
 
     if(req.query.entityId)
     whereStatement.entityId = {[Op.substring]: req.query.entityId};
     
-    if(req.query.languageAlias)
-    whereStatement.languageAlias = {[Op.substring]: req.query.languageAlias};
+    if(req.query.sizeBytes)
+    whereStatement.sizeBytes = {[Op.substring]: req.query.sizeBytes};
     
     if(req.query.filename)
     whereStatement.filename = {[Op.substring]: req.query.filename};
