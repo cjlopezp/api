@@ -56,24 +56,19 @@ exports.findAll = (req, res) => {
     if(req.query.sizeBytes)
     whereStatement.sizeBytes = {[Op.substring]: req.query.sizeBytes};
     
-    if(req.query.filename)
-    whereStatement.filename = {[Op.substring]: req.query.filename};
+    if(req.query.mediaQuery)
+    whereStatement.mediaQuery = {[Op.substring]: req.query.mediaQuery};
 
-    if(req.query.content)
-    whereStatement.content = {[Op.substring]: req.query.content};
+    if(req.query.name)
+    whereStatement.name = {[Op.substring]: req.query.name};
 
-    if(req.query.mimeType)
-    whereStatement.mimeType = {[Op.substring]: req.query.mimeType};
+    if(req.query.languageAlias)
+    whereStatement.languageAlias = {[Op.substring]: req.query.languageAlias};
 
-    if(req.query.sizeBytes)
-    whereStatement.sizeBytes = {[Op.substring]: req.query.sizeBytes};
+    if(req.query.latency)
+    whereStatement.latency = {[Op.substring]: req.query.latency};
     
-    if(req.query.widthPx)
-    whereStatement.width_px = {[Op.substring]: req.query.width_px};
-    
-    if(req.query.heightPx)
-    whereStatement.height_px = {[Op.substring]: req.query.height_px}
-    
+   
     
         
     
