@@ -1,123 +1,133 @@
 var DataTypes = require("sequelize").DataTypes;
-var _CartDetail = require("./cart-detail");
-var _Cart = require("./cart");
-var _Client = require("./client");
-var _Company = require("./company");
-var _Contact = require("./contact");
-var _Email = require("./email");
-var _FailedSale = require("./failed-sale");
-var _Faq = require("./faq");
-var _FaqsCategory = require("./faqs-category");
-var _Fingerprint = require("./fingerprint");
-var _ImageConfiguration = require("./image-configuration");
-var _ImageOriginal = require("./image-original");
-var _ImageResize = require("./image-resize");
-var _Language = require("./language");
-var _Locale = require("./locale");
-var _PaymentDetail = require("./payment-detail");
-var _PaymentMethod = require("./payment-method");
-var _Payment = require("./payment");
-var _ProductCategory = require("./product-category");
-var _Product = require("./product");
-var _Sale = require("./sale");
-var _Slider = require("./slider");
-var _Tax = require("./tax");
-var _User = require("./user");
+var _CartDetails = require("./cart_details");
+var _Carts = require("./carts");
+var _Clients = require("./clients");
+var _Companies = require("./companies");
+var _Contacts = require("./contacts");
+var _Emails = require("./emails");
+var _FailedSales = require("./failed_sales");
+var _Faqs = require("./faqs");
+var _FaqsCategories = require("./faqs-categories");
+var _Fingerprints = require("./fingerprints");
+var _ImageConfigurations = require("./image_configurations");
+var _ImageOriginals = require("./image_originals");
+var _ImageResizes = require("./image_resizes");
+var _Languages = require("./languages");
+var _Locales = require("./locales");
+var _MenuItems = require("./menu_items");
+var _Menus = require("./menus");
+var _PaymentDetails = require("./payment_details");
+var _PaymentMethods = require("./payment_methods");
+var _Payments = require("./payments");
+var _ProductCategories = require("./product_categories");
+var _Products = require("./products");
+var _Sales = require("./sales");
+var _Sliders = require("./sliders");
+var _Taxes = require("./taxes");
+var _Users = require("./users");
 
 function initModels(sequelize) {
-    var CartDetail = _CartDetail(sequelize, DataTypes);
-    var Cart = _Cart(sequelize, DataTypes);
-    var Client = _Client(sequelize, DataTypes);
-    var Company = _Company(sequelize, DataTypes);
-    var Contact = _Contact(sequelize, DataTypes);
-    var Email = _Email(sequelize, DataTypes);
-    var FailedSale = _FailedSale(sequelize, DataTypes);
-    var Faq = _Faq(sequelize, DataTypes);
-    var FaqsCategory = _FaqsCategory(sequelize, DataTypes);
-    var Fingerprint = _Fingerprint(sequelize, DataTypes);
-    var ImageConfiguration = _ImageConfiguration(sequelize, DataTypes);
-    var ImageOriginal = _ImageOriginal(sequelize, DataTypes);
-    var ImageResize = _ImageResize(sequelize, DataTypes);
-    var Language = _Language(sequelize, DataTypes);
-    var Locale = _Locale(sequelize, DataTypes);
-    var PaymentDetail = _PaymentDetail(sequelize, DataTypes);
-    var PaymentMethod = _PaymentMethod(sequelize, DataTypes);
-    var Payment = _Payment(sequelize, DataTypes);
-    var ProductCategory = _ProductCategory(sequelize, DataTypes);
-    var Product = _Product(sequelize, DataTypes);
-    var Sale = _Sale(sequelize, DataTypes);
-    var Slider = _Slider(sequelize, DataTypes);
-    var Tax = _Tax(sequelize, DataTypes);
-    var User = _User(sequelize, DataTypes);
+    var CartDetails = _CartDetails(sequelize, DataTypes);
+    var Carts = _Carts(sequelize, DataTypes);
+    var Clients = _Clients(sequelize, DataTypes);
+    var Companies = _Companies(sequelize, DataTypes);
+    var Contacts = _Contacts(sequelize, DataTypes);
+    var Emails = _Emails(sequelize, DataTypes);
+    var FailedSales = _FailedSales(sequelize, DataTypes);
+    var Faqs = _Faqs(sequelize, DataTypes);
+    var FaqsCategories = _FaqsCategories(sequelize, DataTypes);
+    var Fingerprints = _Fingerprints(sequelize, DataTypes);
+    var ImageConfigurations = _ImageConfigurations(sequelize, DataTypes);
+    var ImageOriginals = _ImageOriginals(sequelize, DataTypes);
+    var ImageResizes = _ImageResizes(sequelize, DataTypes);
+    var Languages = _Languages(sequelize, DataTypes);
+    var Locales = _Locales(sequelize, DataTypes);
+    var MenuItems = _MenuItems(sequelize, DataTypes);
+    var Menus = _Menus(sequelize, DataTypes);
+    var PaymentDetails = _PaymentDetails(sequelize, DataTypes);
+    var PaymentMethods = _PaymentMethods(sequelize, DataTypes);
+    var Payments = _Payments(sequelize, DataTypes);
+    var ProductCategories = _ProductCategories(sequelize, DataTypes);
+    var Products = _Products(sequelize, DataTypes);
+    var Sales = _Sales(sequelize, DataTypes);
+    var Sliders = _Sliders(sequelize, DataTypes);
+    var Taxes = _Taxes(sequelize, DataTypes);
+    var Users = _Users(sequelize, DataTypes);
 
-    CartDetail.belongsTo(Cart, { as: "cart", foreignKey: "cart_id"});
-    Cart.hasMany(CartDetail, { as: "cart_details", foreignKey: "cart_id"});
-    FailedSale.belongsTo(Cart, { as: "cart", foreignKey: "cart_id"});
-    Cart.hasMany(FailedSale, { as: "failed_sales", foreignKey: "cart_id"});
-    Sale.belongsTo(Cart, { as: "cart", foreignKey: "cart_id"});
-    Cart.hasMany(Sale, { as: "sales", foreignKey: "cart_id"});
-    Cart.belongsTo(Client, { as: "client", foreignKey: "client_id"});
-    Client.hasMany(Cart, { as: "carts", foreignKey: "client_id"});
-    FailedSale.belongsTo(Client, { as: "client", foreignKey: "client_id"});
-    Client.hasMany(FailedSale, { as: "failed_sales", foreignKey: "client_id"});
-    Fingerprint.belongsTo(Client, { as: "client", foreignKey: "client_id"});
-    Client.hasMany(Fingerprint, { as: "fingerprints", foreignKey: "client_id"});
-    Payment.belongsTo(Client, { as: "client", foreignKey: "client_id"});
-    Client.hasMany(Payment, { as: "payments", foreignKey: "client_id"});
-    Sale.belongsTo(Client, { as: "client", foreignKey: "client_id"});
-    Client.hasMany(Sale, { as: "sales", foreignKey: "client_id"});
-    Cart.belongsTo(Fingerprint, { as: "fingerprint", foreignKey: "fingerprint_id"});
-    Fingerprint.hasMany(Cart, { as: "carts", foreignKey: "fingerprint_id"});
-    Locale.belongsTo(Language, { as: "language_alias_language", foreignKey: "language_alias"});
-    Language.hasMany(Locale, { as: "locales", foreignKey: "language_alias"});
-    PaymentDetail.belongsTo(PaymentDetail, { as: "payment", foreignKey: "payment_id"});
-    PaymentDetail.hasMany(PaymentDetail, { as: "payment_details", foreignKey: "payment_id"});
-    FailedSale.belongsTo(PaymentMethod, { as: "payment_method", foreignKey: "payment_method_id"});
-    PaymentMethod.hasMany(FailedSale, { as: "failed_sales", foreignKey: "payment_method_id"});
-    Payment.belongsTo(PaymentMethod, { as: "payment_method", foreignKey: "payment_method_id"});
-    PaymentMethod.hasMany(Payment, { as: "payments", foreignKey: "payment_method_id"});
-    Sale.belongsTo(PaymentMethod, { as: "payment_method", foreignKey: "payment_method_id"});
-    PaymentMethod.hasMany(Sale, { as: "sales", foreignKey: "payment_method_id"});
-    Product.belongsTo(ProductCategory, { as: "category", foreignKey: "category_id"});
-    ProductCategory.hasMany(Product, { as: "products", foreignKey: "category_id"});
-    CartDetail.belongsTo(Product, { as: "product", foreignKey: "product_id"});
-    Product.hasMany(CartDetail, { as: "cart_details", foreignKey: "product_id"});
-    PaymentDetail.belongsTo(Product, { as: "product", foreignKey: "product_id"});
-    Product.hasMany(PaymentDetail, { as: "payment_details", foreignKey: "product_id"});
-    Payment.belongsTo(Sale, { as: "sale", foreignKey: "sale_id"});
-    Sale.hasMany(Payment, { as: "payments", foreignKey: "sale_id"});
-    CartDetail.belongsTo(Tax, { as: "tax", foreignKey: "tax_id"});
-    Tax.hasMany(CartDetail, { as: "cart_details", foreignKey: "tax_id"});
-    PaymentDetail.belongsTo(Tax, { as: "tax", foreignKey: "tax_id"});
-    Tax.hasMany(PaymentDetail, { as: "payment_details", foreignKey: "tax_id"});
-    Product.belongsTo(Tax, { as: "tax", foreignKey: "tax_id"});
-    Tax.hasMany(Product, { as: "products", foreignKey: "tax_id"});
+    CartDetails.belongsTo(Carts, { as: "cart", foreignKey: "cart_id"});
+    Carts.hasMany(CartDetails, { as: "cart_details", foreignKey: "cart_id"});
+    FailedSales.belongsTo(Carts, { as: "cart", foreignKey: "cart_id"});
+    Carts.hasMany(FailedSales, { as: "failed_sales", foreignKey: "cart_id"});
+    Sales.belongsTo(Carts, { as: "cart", foreignKey: "cart_id"});
+    Carts.hasMany(Sales, { as: "sales", foreignKey: "cart_id"});
+    Carts.belongsTo(Clients, { as: "client", foreignKey: "client_id"});
+    Clients.hasMany(Carts, { as: "carts", foreignKey: "client_id"});
+    FailedSales.belongsTo(Clients, { as: "client", foreignKey: "client_id"});
+    Clients.hasMany(FailedSales, { as: "failed_sales", foreignKey: "client_id"});
+    Fingerprints.belongsTo(Clients, { as: "client", foreignKey: "client_id"});
+    Clients.hasMany(Fingerprints, { as: "fingerprints", foreignKey: "client_id"});
+    Payments.belongsTo(Clients, { as: "client", foreignKey: "client_id"});
+    Clients.hasMany(Payments, { as: "payments", foreignKey: "client_id"});
+    Sales.belongsTo(Clients, { as: "client", foreignKey: "client_id"});
+    Clients.hasMany(Sales, { as: "sales", foreignKey: "client_id"});
+    Carts.belongsTo(Fingerprints, { as: "fingerprint", foreignKey: "fingerprint_id"});
+    Fingerprints.hasMany(Carts, { as: "carts", foreignKey: "fingerprint_id"});
+    Locales.belongsTo(Languages, { as: "language_alias_language", foreignKey: "language_alias"});
+    Languages.hasMany(Locales, { as: "locales", foreignKey: "language_alias"});
+    MenuItems.belongsTo(MenuItems, { as: "parent", foreignKey: "parentId"});
+    MenuItems.hasMany(MenuItems, { as: "menu_items", foreignKey: "parentId"});
+    MenuItems.belongsTo(Menus, { as: "menu", foreignKey: "menuId"});
+    Menus.hasMany(MenuItems, { as: "menu_items", foreignKey: "menuId"});
+    PaymentDetails.belongsTo(PaymentDetails, { as: "payment", foreignKey: "payment_id"});
+    PaymentDetails.hasMany(PaymentDetails, { as: "payment_details", foreignKey: "payment_id"});
+    FailedSales.belongsTo(PaymentMethods, { as: "payment_method", foreignKey: "payment_method_id"});
+    PaymentMethods.hasMany(FailedSales, { as: "failed_sales", foreignKey: "payment_method_id"});
+    Payments.belongsTo(PaymentMethods, { as: "payment_method", foreignKey: "payment_method_id"});
+    PaymentMethods.hasMany(Payments, { as: "payments", foreignKey: "payment_method_id"});
+    Sales.belongsTo(PaymentMethods, { as: "payment_method", foreignKey: "payment_method_id"});
+    PaymentMethods.hasMany(Sales, { as: "sales", foreignKey: "payment_method_id"});
+    Products.belongsTo(ProductCategories, { as: "category", foreignKey: "category_id"});
+    ProductCategories.hasMany(Products, { as: "products", foreignKey: "category_id"});
+    CartDetails.belongsTo(Products, { as: "product", foreignKey: "product_id"});
+    Products.hasMany(CartDetails, { as: "cart_details", foreignKey: "product_id"});
+    PaymentDetails.belongsTo(Products, { as: "product", foreignKey: "product_id"});
+    Products.hasMany(PaymentDetails, { as: "payment_details", foreignKey: "product_id"});
+    Payments.belongsTo(Sales, { as: "sale", foreignKey: "sale_id"});
+    Sales.hasMany(Payments, { as: "payments", foreignKey: "sale_id"});
+    CartDetails.belongsTo(Taxes, { as: "tax", foreignKey: "tax_id"});
+    Taxes.hasMany(CartDetails, { as: "cart_details", foreignKey: "tax_id"});
+    PaymentDetails.belongsTo(Taxes, { as: "tax", foreignKey: "tax_id"});
+    Taxes.hasMany(PaymentDetails, { as: "payment_details", foreignKey: "tax_id"});
+    Products.belongsTo(Taxes, { as: "tax", foreignKey: "tax_id"});
+    Taxes.hasMany(Products, { as: "products", foreignKey: "tax_id"});
 
     return {
-        CartDetail,
-        Cart,
-        Client,
-        Company,
-        Contact,
-        Email,
-        FailedSale,
-        Faq,
-        FaqsCategory,
-        Fingerprint,
-        ImageConfiguration,
-        ImageOriginal,
-        ImageResize,
-        Language,
-        Locale,
-        PaymentDetail,
-        PaymentMethod,
-        Payment,
-        ProductCategory,
-        Product,
-        Sale,
-        Slider,
-        Tax,
-        User,
+        CartDetails,
+        Carts,
+        Clients,
+        Companies,
+        Contacts,
+        Emails,
+        FailedSales,
+        Faqs,
+        FaqsCategories,
+        Fingerprints,
+        ImageConfigurations,
+        ImageOriginals,
+        ImageResizes,
+        Languages,
+        Locales,
+        MenuItems,
+        Menus,
+        PaymentDetails,
+        PaymentMethods,
+        Payments,
+        ProductCategories,
+        Products,
+        Sales,
+        Sliders,
+        Taxes,
+        Users,
     };
 }
 module.exports = initModels;
