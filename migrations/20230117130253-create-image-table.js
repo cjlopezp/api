@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('image_originals', {
+    await queryInterface.createTable('images', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,6 +11,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       imageConfigurationId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      entityId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      entity: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      name: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -22,23 +34,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      entity: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      entityId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      sizeBytes: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      mediaQuery: {
+      title: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      name: {
+      alt: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -46,7 +46,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      latency: {
+      mediaQuery: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      sizeBytes: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      latencyMs: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
@@ -65,6 +73,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('image_originals');
+    await queryInterface.dropTable('images');
   }
 };

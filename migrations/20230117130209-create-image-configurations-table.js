@@ -3,39 +3,32 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('menu_items', {
+    await queryInterface.createTable('image_configurations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      menuId: {
+      entity: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'menus',
-          key: 'id'
-        }
+        type: Sequelize.STRING
       },
       name: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      customUrl: {
+      mediaQuery: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      order: {
+      widthPx: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      parentId: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'menu_items',
-          key: 'id'
-        }
+      heightPx: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -52,6 +45,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('menu_items');
+    await queryInterface.dropTable('image_configurations');
   }
 };

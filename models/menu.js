@@ -15,6 +15,21 @@ module.exports = function(sequelize, DataTypes) {
                     msg: 'Por favor, rellena el campo "Nombre".'
                 }
             }
+        },
+        customUrl: {
+            type: DataTypes.STRING(255),
+        },
+        order: {
+            type: DataTypes.INTEGER,
+            defaultValue: 1,
+            validator: {
+                notNull: {
+                    msg: 'Por favor, rellena el campo "Orden".'
+                }
+            }
+        },
+        parentId: {
+            type: DataTypes.INTEGER
         }
     }, {
         sequelize,
@@ -34,7 +49,8 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     Menu.associate = function(models) {
-        Menu.hasMany(models.MenuItem, { as: "menuItems", foreignKey: "menuId"});
+        Menu.belongsTo(models.Menu, { as: 'parent', foreignKey: 'parentId' });
+        Menu.hasMany(models.Menu, { as: 'children', foreignKey: 'parentId' });
     };
 
     return Menu;
