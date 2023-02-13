@@ -31,28 +31,39 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
 
+    let page = req.query.page || 1;
+    let limit = req.query.size || 10;
+    let offset = (page - 1) * limit;
+
     let whereStatement = {};
 
-    if(req.query.client_id)
-        whereStatement.client_id = {[Op.substring]: req.query.client_id};
-
-    if(req.query.fingerprint)
-        whereStatement.fingerprint = {[Op.substring]: req.query.fingerprint};
-    
-    
-
-
-
-
-
+    for (let key in req.query) {
+        if (req.query[key] != "" && key != "page" && key != "size") {
+            whereStatement[key] = {[Op.substring]: req.query[key]};
+        }
+    }
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    Fingerprint.findAll({ where: condition }).then(data => {
-        res.status(200).send(data);
+    Fingerprint.findAndCountAll({
+        where: condition, 
+        limit: limit,
+        offset: offset,
+        order: [['createdAt', 'DESC']]
+    })
+    .then(result => {
+
+        result.meta = {
+            total: result.count,
+            pages: Math.ceil(result.count / limit),
+            currentPage: page
+        };
+
+        res.status(200).send(result);
+
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Algún error ha surgido al recuperar los datos."
+            message: err.errors || "Algún error ha surgido al recuperar los datos."
         });
     });
 };

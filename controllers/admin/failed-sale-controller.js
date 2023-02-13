@@ -1,5 +1,5 @@
 const db = require("../../models");
-const Tax = db.Tax;
+const FailSale = db.FailSale;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -22,7 +22,7 @@ exports.create = (req, res) => {
         error_message: req.body.error_message,
     };
 
-    Tax.create(tax).then(data => {
+    FailSale.create(tax).then(data => {
         res.status(200).send(data);
     }).catch(err => {
         res.status(500).send({
@@ -33,34 +33,39 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
 
+    let page = req.query.page || 1;
+    let limit = req.query.size || 10;
+    let offset = (page - 1) * limit;
+
     let whereStatement = {};
 
-         
-    
-    if(req.query.payment_method_id)
-        whereStatement.payment_method_id = {[Op.substring]: req.query.payment_method_id};
-
-    if(req.query.client_id)
-        whereStatement.client_id = {[Op.substring]: req.query.client_id};
-
-    if(req.query.cart_id)
-        whereStatement.cart_id = {[Op.substring]: req.query.cart_id};
-    
-    if(req.query.error_code)
-        whereStatement.error_code = {[Op.substring]: req.query.error_code};
-    
-    if(req.query.error_message)
-        whereStatement.error_message = {[Op.substring]: req.query.error_message};
-        
-        
+    for (let key in req.query) {
+        if (req.query[key] != "" && key != "page" && key != "size") {
+            whereStatement[key] = {[Op.substring]: req.query[key]};
+        }
+    }
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    Tax.findAll({ where: condition }).then(data => {
-        res.status(200).send(data);
+    FailSale.findAndCountAll({
+        where: condition, 
+        limit: limit,
+        offset: offset,
+        order: [['createdAt', 'DESC']]
+    })
+    .then(result => {
+
+        result.meta = {
+            total: result.count,
+            pages: Math.ceil(result.count / limit),
+            currentPage: page
+        };
+
+        res.status(200).send(result);
+
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Algún error ha surgido al recuperar los datos."
+            message: err.errors || "Algún error ha surgido al recuperar los datos."
         });
     });
 };

@@ -36,37 +36,39 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
 
+    let page = req.query.page || 1;
+    let limit = req.query.size || 10;
+    let offset = (page - 1) * limit;
+
     let whereStatement = {};
 
-    if(req.query.name)
-        whereStatement.name = {[Op.substring]: req.query.name};
+    for (let key in req.query) {
+        if (req.query[key] != "" && key != "page" && key != "size") {
+            whereStatement[key] = {[Op.substring]: req.query[key]};
+        }
+    }
 
-    if(req.query.phone_number)
-        whereStatement.phone_number = {[Op.substring]: req.query.phone_number}; 
-    
-    if(req.query.mobile_number)
-    whereStatement.mobile_number = {[Op.substring]: req.query.mobile_number}; 
-    
-    if(req.query.cif_number)
-    whereStatement.cif_number = {[Op.substring]: req.query.cif_number}; 
-        
-    if(req.query.opening_days)
-    whereStatement.opening_days = {[Op.substring]: req.query.opening_days};
-    
-    if(req.query.customer_service_days)
-    whereStatement.customer_service_days = {[Op.substring]: req.query.customer_service_days};
-    
-    if(req.query.visible)
-    whereStatement.visible = {[Op.substring]: req.query.visible};
-        
-        
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    Company.findAll({ where: condition }).then(data => {
-        res.status(200).send(data);
+    Company.findAndCountAll({
+        where: condition, 
+        limit: limit,
+        offset: offset,
+        order: [['createdAt', 'DESC']]
+    })
+    .then(result => {
+
+        result.meta = {
+            total: result.count,
+            pages: Math.ceil(result.count / limit),
+            currentPage: page
+        };
+
+        res.status(200).send(result);
+
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Algún error ha surgido al recuperar los datos."
+            message: err.errors || "Algún error ha surgido al recuperar los datos."
         });
     });
 };

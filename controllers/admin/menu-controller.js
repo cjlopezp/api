@@ -15,11 +15,12 @@ exports.create = async (req, res) => {
     }
 };
 
-exports.findAll = async (req, res) => {
+exports.findAll = (req, res) => {
 
     let page = req.query.page || 1;
     let limit = req.query.size || 10;
     let offset = (page - 1) * limit;
+
     let whereStatement = {};
 
     for (let key in req.query) {
@@ -32,7 +33,6 @@ exports.findAll = async (req, res) => {
 
     Menu.findAndCountAll({
         where: condition, 
-        attributes: ['id', 'name'],
         limit: limit,
         offset: offset,
         order: [['createdAt', 'DESC']]
@@ -49,7 +49,7 @@ exports.findAll = async (req, res) => {
 
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Algún error ha surgido al recuperar los datos."
+            message: err.errors || "Algún error ha surgido al recuperar los datos."
         });
     });
 };

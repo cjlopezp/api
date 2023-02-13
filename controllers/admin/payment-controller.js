@@ -40,47 +40,39 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
 
+    let page = req.query.page || 1;
+    let limit = req.query.size || 10;
+    let offset = (page - 1) * limit;
+
     let whereStatement = {};
 
-    
-
-    if(req.query.sale_id)
-        whereStatement.sale_id = {[Op.substring]: req.query.sale_id};
-
-    if(req.query.client_id)
-    whereStatement.client_id = {[Op.substring]: req.query.client_id}; 
-    
-    if(req.query.payment_method_id)
-    whereStatement.payment_method_id = {[Op.substring]: req.query.payment_method_id}; 
-
-    if(req.query.reference)
-    whereStatement.reference = {[Op.substring]: req.query.reference}; 
-
-    if(req.query.total_price)
-    whereStatement.total_price = {[Op.substring]: req.query.total_price};
-    
-    if(req.query.total_price_base)
-    whereStatement.total_price_base = {[Op.substring]: req.query.total_price_base};
-
-    if(req.query.total_price_tax)
-    whereStatement.total_price_tax = {[Op.substring]: req.query.total_price_tax};
-        
-    if(req.query.emission_date)
-    whereStatement.emission_date = {[Op.substring]: req.query.emission_date}; 
-    
-    if(req.query.emission_hour)
-    whereStatement.emission_hour = {[Op.substring]: req.query.emission_hour};
-
-    
-
+    for (let key in req.query) {
+        if (req.query[key] != "" && key != "page" && key != "size") {
+            whereStatement[key] = {[Op.substring]: req.query[key]};
+        }
+    }
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    Payment.findAll({ where: condition }).then(data => {
-        res.status(200).send(data);
+    Payment.findAndCountAll({
+        where: condition, 
+        limit: limit,
+        offset: offset,
+        order: [['createdAt', 'DESC']]
+    })
+    .then(result => {
+
+        result.meta = {
+            total: result.count,
+            pages: Math.ceil(result.count / limit),
+            currentPage: page
+        };
+
+        res.status(200).send(result);
+
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Algún error ha surgido al recuperar los datos."
+            message: err.errors || "Algún error ha surgido al recuperar los datos."
         });
     });
 };

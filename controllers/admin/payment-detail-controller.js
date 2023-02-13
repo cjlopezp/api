@@ -36,39 +36,39 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
 
+    let page = req.query.page || 1;
+    let limit = req.query.size || 10;
+    let offset = (page - 1) * limit;
+
     let whereStatement = {};
 
-
-    if(req.query.payment_id)
-        whereStatement.payment_id = {[Op.substring]: req.query.payment_id};
-
-    if(req.query.product_id)
-        whereStatement.product_id = {[Op.substring]: req.query.product_id}; 
-    
-    if(req.query.amount)
-        whereStatement.amount = {[Op.substring]: req.query.amount};
-    
-    if(req.query.price)
-        whereStatement.price = {[Op.substring]: req.query.price};
-        
-    if(req.query.unit_measurement)
-        whereStatement.unit_measurement = {[Op.substring]: req.query.unit_measurement};           
-         
-    if(req.query.product_name)
-        whereStatement.product_name = {[Op.substring]: req.query.product_name};    
-      
-    if(req.query.tax_id)
-        whereStatement.tax_id = {[Op.substring]: req.query.tax_id};     
-        
-
+    for (let key in req.query) {
+        if (req.query[key] != "" && key != "page" && key != "size") {
+            whereStatement[key] = {[Op.substring]: req.query[key]};
+        }
+    }
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    PaymentDetail.findAll({ where: condition }).then(data => {
-        res.status(200).send(data);
+    PaymentDetail.findAndCountAll({
+        where: condition, 
+        limit: limit,
+        offset: offset,
+        order: [['createdAt', 'DESC']]
+    })
+    .then(result => {
+
+        result.meta = {
+            total: result.count,
+            pages: Math.ceil(result.count / limit),
+            currentPage: page
+        };
+
+        res.status(200).send(result);
+
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Algún error ha surgido al recuperar los datos."
+            message: err.errors || "Algún error ha surgido al recuperar los datos."
         });
     });
 };

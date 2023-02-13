@@ -35,46 +35,39 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
 
+    let page = req.query.page || 1;
+    let limit = req.query.size || 10;
+    let offset = (page - 1) * limit;
+
     let whereStatement = {};
 
-   
-        
-    if(req.query.cart_id)
-        whereStatement.cart_id = {[Op.substring]: req.query.cart_id};
-
-        if(req.query.client_id)
-        whereStatement.client_id = {[Op.substring]: req.query.client_id};
-         
-        if(req.query.payment_method_id)
-        whereStatement.payment_method_id = {[Op.substring]: req.query.payment_method_id};
-        
-        if(req.query.total_price)
-        whereStatement.total_price = {[Op.substring]: req.query.total_price};
-        
-        if(req.query.full_base_price)
-        whereStatement.full_base_price = {[Op.substring]: req.query.full_base_price};
-        
-        if(req.query.full_tax_price)
-        whereStatement.full_tax_price = {[Op.substring]: req.query.full_tax_price};
-        
-        if(req.query.date_issue)
-        whereStatement.date_issue = {[Op.substring]: req.query.date_issue};
-        
-        if(req.query.hour_issue)
-        whereStatement.hour_issue = {[Op.substring]: req.query.hour_issue};
-        
-        
-
-
-
+    for (let key in req.query) {
+        if (req.query[key] != "" && key != "page" && key != "size") {
+            whereStatement[key] = {[Op.substring]: req.query[key]};
+        }
+    }
 
     let condition = Object.keys(whereStatement).length > 0 ? {[Op.and]: [whereStatement]} : {};
 
-    Sale.findAll({ where: condition }).then(data => {
-        res.status(200).send(data);
+    Sale.findAndCountAll({
+        where: condition, 
+        limit: limit,
+        offset: offset,
+        order: [['createdAt', 'DESC']]
+    })
+    .then(result => {
+
+        result.meta = {
+            total: result.count,
+            pages: Math.ceil(result.count / limit),
+            currentPage: page
+        };
+
+        res.status(200).send(result);
+
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Algún error ha surgido al recuperar los datos."
+            message: err.errors || "Algún error ha surgido al recuperar los datos."
         });
     });
 };
