@@ -1,31 +1,39 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Menu', {
+    return sequelize.define('Book', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        name: {
+        title: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        customUrl: {
+        author: {
             type: DataTypes.STRING(255),
-            allowNull: true
+            allowNull: false
         },
-        order: {
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        isbn: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        pageCount: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        parentId: {
-            type: DataTypes.INTEGER,
-            allowNull: true
+        publishedDate: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'menus',
+        tableName: 'books',
         timestamps: true,
         paranoid: true,
         indexes: [

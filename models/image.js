@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    const Image = sequelize.define('Image', {
+    return sequelize.define('Image', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         name: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING(255),
             allowNull: false
         },
         originalFilename: {
@@ -54,18 +54,6 @@ module.exports = function(sequelize, DataTypes) {
         latencyMs: {
             type: DataTypes.INTEGER,
             allowNull: false
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        deletedAt: {
-            type: DataTypes.DATE,
-            allowNull: true
         }
     }, {
         sequelize,
@@ -81,19 +69,6 @@ module.exports = function(sequelize, DataTypes) {
                     { name: "id" },
                 ]
             },
-            {
-                name: "FK_image_resizes_image_configurations",
-                using: "BTREE",
-                fields: [
-                    { name: "imageConfigurationId" },
-                ]
-            }
         ]
     });
-
-    Image.associate = function(models) {
-        Image.belongsTo(models.ImageConfiguration, { foreignKey: 'imageConfigurationId' });
-    };
-
-    return Image;
 };

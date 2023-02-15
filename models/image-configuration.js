@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-    const ImageConfiguration = sequelize.define('ImageConfiguration', {
+    return sequelize.define('ImageConfiguration', {
         id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
@@ -26,18 +26,6 @@ module.exports = function(sequelize, DataTypes) {
         heightPx: {
             type: DataTypes.INTEGER,
             allowNull: false
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        deletedAt: {
-            type: DataTypes.DATE,
-            allowNull: true
         }
     }, {
         sequelize,
@@ -52,13 +40,7 @@ module.exports = function(sequelize, DataTypes) {
                 fields: [
                     { name: "id" },
                 ]
-            }
+            },
         ]
     });
-
-    ImageConfiguration.associate = function(models) {
-        ImageConfiguration.hasMany(models.Image, { as: 'images', foreignKey: 'imageConfigurationId'});
-    };
-
-    return ImageConfiguration;
 };
